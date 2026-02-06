@@ -20,3 +20,7 @@ python main.py
 ```bash
 pyenv exec python -m venv .venv && source .venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt
 ```
+
+```bash
+ffmpeg -i input.m4a output.wav
+```
