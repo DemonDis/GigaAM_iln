@@ -6,7 +6,7 @@
 - **pyenv**: 2.6.20
 
 - **LM studio**: 0.4.2
-- **Model**: Ruadapt Qwen2.5 3B Q2 K
+- **Model**: Llama 3 8B Gpt 4o Ru1.0 GGUF Q3_K_M
 
 1. Создайте виртуальное окружение (рекомендуется):
 ```bash

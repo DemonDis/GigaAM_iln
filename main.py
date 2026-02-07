@@ -2,6 +2,7 @@ import os
 import datetime
 from dotenv import load_dotenv
 import gigaam
+import time
 
 load_dotenv()
 
@@ -37,7 +38,9 @@ else:
     if hasattr(asr_model, "transcribe_longform"):
         try:
             print("Starting longform transcription...")
+            start_time = time.perf_counter()
             utterances = asr_model.transcribe_longform(long_audio_path)
+            end_time = time.perf_counter()
 
             for utt in utterances:
                 transcription = utt["transcription"]
@@ -46,6 +49,13 @@ else:
                 time_str = f"{transcription}"
                 # print(time_str)
                 log_to_md(time_str, log_file_path)
+
+            elapsed = end_time - start_time
+            minutes = int(elapsed // 60)
+            seconds = int(elapsed % 60)
+            milliseconds = int((elapsed - int(elapsed)) * 1000)
+            print(f"Longform transcription finished.")
+            print(f"Transcription took {minutes}m {seconds}s {milliseconds}ms.")
 
         except Exception as e:
             print(f"Ошибка при transcribe_longform: {e}")
