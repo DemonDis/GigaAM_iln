@@ -9,3 +9,4 @@ torchaudio>=2.5,<2.9
 tqdm
 huggingface_hub==1.4.1
 pyannote.audio==4.0.3
+python-dotenv==1.2.1

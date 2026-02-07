@@ -5,15 +5,15 @@ import gigaam
 load_dotenv()
 
 # Файл для записи результата в формате .md
-LOG_FILE_PATH = "transcriptions.md"
+LOG_FILE_PATH = "./voice/result/text.md"
 
 def log_to_md(content: str):
     with open(LOG_FILE_PATH, "a", encoding="utf-8") as f:
         f.write(content + "\n")
 
 # === Тестовые аудио ===
-# long_audio_path = "./voice/test.wav"
-long_audio_path = gigaam.utils.download_long_audio()
+long_audio_path = "./voice/meet.wav"
+# long_audio_path = gigaam.utils.download_long_audio()
 print(f"Long audio:  {long_audio_path}")
 
 # Рекомендуемые имена в доке: "rnnt", "ctc", "v2_rnnt", "v2_ctc" и т.п.
@@ -37,8 +37,9 @@ else:
             for utt in utterances:
                 transcription = utt["transcription"]
                 start, end = utt["boundaries"]
-                time_str = f"[{gigaam.format_time(start)} - {gigaam.format_time(end)}]: {transcription}"
-                print(time_str)
+                # time_str = f"[{gigaam.format_time(start)} - {gigaam.format_time(end)}]: {transcription}"
+                time_str = f"{transcription}"
+                # print(time_str)
                 log_to_md(time_str)
 
         except Exception as e:
