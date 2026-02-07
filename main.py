@@ -1,24 +1,29 @@
 import os
+import datetime
 from dotenv import load_dotenv
 import gigaam
 
 load_dotenv()
 
-# Файл для записи результата в формате .md
-LOG_FILE_PATH = "./voice/result/text.md"
-
-def log_to_md(content: str):
-    with open(LOG_FILE_PATH, "a", encoding="utf-8") as f:
+def log_to_md(content: str, file_path: str):
+    with open(file_path, "a", encoding="utf-8") as f:
         f.write(content + "\n")
 
 # === Тестовые аудио ===
-long_audio_path = "./voice/meet.wav"
+long_audio_path = "./voice/test.wav"
 # long_audio_path = gigaam.utils.download_long_audio()
 print(f"Long audio:  {long_audio_path}")
 
 # Рекомендуемые имена в доке: "rnnt", "ctc", "v2_rnnt", "v2_ctc" и т.п.
 asr_model_name = "rnnt"
 asr_model = gigaam.load_model(asr_model_name)
+
+# Prepare dynamic filename for output
+now_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+audio_name = os.path.splitext(os.path.basename(long_audio_path))[0]
+result_dir = "./voice/result"
+os.makedirs(result_dir, exist_ok=True)
+log_file_path = os.path.join(result_dir, f"{now_str}_{asr_model_name}_{audio_name}.md")
 
 # === Распознавание на длинном аудио (longform) ===
 HF_TOKEN = os.getenv("HF_TOKEN", "")
@@ -40,7 +45,7 @@ else:
                 # time_str = f"[{gigaam.format_time(start)} - {gigaam.format_time(end)}]: {transcription}"
                 time_str = f"{transcription}"
                 # print(time_str)
-                log_to_md(time_str)
+                log_to_md(time_str, log_file_path)
 
         except Exception as e:
             print(f"Ошибка при transcribe_longform: {e}")

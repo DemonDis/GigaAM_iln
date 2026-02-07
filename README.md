@@ -1,5 +1,13 @@
 # GigaAM
 
+## Tech stack
+- **Python**: 3.10.10
+- **ffmpeg**: ffmpeg version 7.1.1
+- **pyenv**: 2.6.20
+
+- **LM studio**: 0.4.2
+- **Model**: Ruadapt Qwen2.5 3B Q2 K
+
 1. Создайте виртуальное окружение (рекомендуется):
 ```bash
 python -m venv .venv
