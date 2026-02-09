@@ -11,12 +11,12 @@ def log_to_md(content: str, file_path: str):
         f.write(content + "\n")
 
 # === Тестовые аудио ===
-long_audio_path = "./voice/test.wav"
+long_audio_path = "./voice/meet.wav"
 # long_audio_path = gigaam.utils.download_long_audio()
 print(f"Long audio:  {long_audio_path}")
 
 # Рекомендуемые имена в доке: "rnnt", "ctc", "v2_rnnt", "v2_ctc" и т.п.
-asr_model_name = "rnnt"
+asr_model_name = "v3_e2e_rnnt"
 asr_model = gigaam.load_model(asr_model_name)
 
 # Prepare dynamic filename for output

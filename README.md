@@ -1,12 +1,12 @@
 # GigaAM
 
 ## Tech stack
-- **Python**: 3.10.10
-- **ffmpeg**: ffmpeg version 7.1.1
+- **Python**: 3.10.10 (mac)
+- **ffmpeg**: 7.1.1
 - **pyenv**: 2.6.20
 
 - **LM studio**: 0.4.2
-- **Model**: qwen3-4b-instruct-2507-gabliterated
+- **Model**: [josiefied-qwen3-4b-instruct-2507-gabliterated-v2-i1](https://huggingface.co/mradermacher/Josiefied-Qwen3-4B-Instruct-2507-gabliterated-v2-i1-GGUF)
 
 1. Создайте виртуальное окружение (рекомендуется):
 ```bash
