@@ -92,8 +92,13 @@ def segment_audio_file(
     """
 
     audio = load_audio(wav_file)
+    audio_map = {
+        "waveform": audio.unsqueeze(0),
+        "sample_rate": sr,
+        "uri": os.path.basename(wav_file),
+    }
     pipeline = get_pipeline(device)
-    sad_segments = pipeline(wav_file)
+    sad_segments = pipeline(audio_map)
 
     segments: List[torch.Tensor] = []
     curr_duration = 0.0
@@ -107,11 +112,15 @@ def segment_audio_file(
             segment_duration = curr_duration / max_segments
             curr_end = curr_start + segment_duration
             for _ in range(max_segments - 1):
-                segments.append(audio[int(curr_start * sr) : int(curr_end * sr)])
+                start_idx = int(curr_start * sr)
+                end_idx = int(curr_end * sr)
+                segments.append(audio[start_idx:end_idx])
                 boundaries.append((curr_start, curr_end))
                 curr_start = curr_end
                 curr_end += segment_duration
-        segments.append(audio[int(curr_start * sr) : int(curr_end * sr)])
+        start_idx = int(curr_start * sr)
+        end_idx = int(curr_end * sr)
+        segments.append(audio[start_idx:end_idx])
         boundaries.append((curr_start, curr_end))
 
     # Concat segments from pipeline into chunks for asr according to max/min duration
