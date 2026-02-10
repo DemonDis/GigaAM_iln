@@ -24,7 +24,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-3. Установите зависимости:
+3. Запуск:
 ```bash
 python main.py
 ```
