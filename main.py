@@ -11,7 +11,7 @@ def log_to_md(content: str, file_path: str):
         f.write(content + "\n")
 
 # === Тестовые аудио ===
-long_audio_path = "./voice/meet.wav"
+long_audio_path = "./voice/RIN001.WAV"
 # long_audio_path = gigaam.utils.download_long_audio()
 print(f"Long audio:  {long_audio_path}")
 
@@ -60,4 +60,4 @@ else:
         except Exception as e:
             print(f"Ошибка при transcribe_longform: {e}")
     else:
-        print("Метод 'transcribe_longform' отсутствует у модели. Попробуйте gigaam.load_model('ctc').")
+        print("Метод 'transcribe_longform' отсутствует у модели.")
