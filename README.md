@@ -5,7 +5,7 @@
 - **ffmpeg**: version 7.1.1-essentials_build-www.gyan.dev
 
 - **LM studio**: 0.4.2
-- **Model**: qwen3-4b-instruct-2507-gabliterated
+- **Model**: [josiefied-qwen3-4b-instruct-2507-gabliterated-v2-i1](https://huggingface.co/mradermacher/Josiefied-Qwen3-4B-Instruct-2507-gabliterated-v2-i1-GGUF)
 
 1. Создайте виртуальное окружение (рекомендуется):
 ```bash
@@ -25,15 +25,9 @@ pip install --upgrade pip
 pip install -e .
 ```
 
-3. Установите зависимости:
+3. Запуск:
 ```bash
 python main.py
-```
-
-### Для образа python 3.10.10
-```bash
-# mac
-pyenv exec python -m venv .venv && source .venv/bin/activate && pip install --upgrade pip && pip install -r requirements.txt && pip install -e .
 ```
 
 ### Конвертация m4a в wav

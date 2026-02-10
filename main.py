@@ -11,7 +11,7 @@ def log_to_md(content: str, file_path: str):
         f.write(content + "\n")
 
 # === Тестовые аудио ===
-long_audio_path = "./voice/RIN002.WAV"
+long_audio_path = "./voice/test.WAV"
 # long_audio_path = gigaam.utils.download_long_audio()
 print(f"Long audio:  {long_audio_path}")
 
