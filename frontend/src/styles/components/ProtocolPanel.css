@@ -5,79 +5,97 @@
 .agenda-section label {
   display: block;
   margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
   color: var(--color-text-secondary);
 }
 
 .agenda-section textarea {
   width: 100%;
-  padding: 0.75rem;
-  background-color: var(--color-bg-primary);
+  padding: 0.875rem 1rem;
+  background-color: var(--color-bg-tertiary);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   color: var(--color-text-primary);
-  resize: vertical;
   font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  transition: all var(--transition-fast);
 }
 
 .agenda-section textarea:focus {
   outline: none;
-  border-color: var(--color-accent-cyan);
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-secondary);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.agenda-section textarea::placeholder {
+  color: var(--color-text-muted);
 }
 
 .btn-secondary {
-  padding: 1rem 2rem;
-  background-color: var(--color-accent-red);
-  color: white;
-  border: none;
+  padding: 0.875rem 1.75rem;
+  background-color: var(--color-text-primary);
+  color: var(--color-bg-secondary);
   border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
   transition: all var(--transition-fast);
-  width: 100%;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background-color: var(--color-accent-red-dark);
-  transform: translateY(-2px);
+  background-color: #000;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn-secondary:disabled {
-  background-color: var(--color-disabled);
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
   cursor: not-allowed;
 }
 
 .protocol-section {
-  margin-top: 2rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
 }
 
 .protocol-box {
-  background-color: var(--color-bg-primary);
-  border: 1px solid var(--color-accent-red);
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 1rem;
-  max-height: 50vh;
+  padding: 1.25rem;
+  max-height: 45vh;
   overflow-y: auto;
+  margin-top: 1rem;
 }
 
 .protocol-box pre {
   white-space: pre-wrap;
   word-wrap: break-word;
-  font-family: 'Courier New', monospace;
-  line-height: 1.5;
-  font-size: 0.9rem;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text-primary);
 }
 
 .btn-copy {
-  padding: 0.5rem 1rem;
-  background-color: #4a5568;
-  color: white;
-  border: none;
+  padding: 0.625rem 1rem;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
   margin-top: 1rem;
+  transition: all var(--transition-fast);
 }
 
 .btn-copy:hover {
-  background-color: #5a6578;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  border-color: var(--color-text-secondary);
 }

@@ -1,25 +1,35 @@
 /* Variables */
 :root {
-  --color-bg-primary: #1a1a2e;
-  --color-bg-secondary: #16213e;
-  --color-bg-tertiary: #0f3460;
+  /* Colors - Light Theme */
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #f5f5f5;
+  --color-bg-hover: #eeeeee;
   
-  --color-text-primary: #eee;
-  --color-text-secondary: #aaa;
-  --color-text-muted: #666;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #666666;
+  --color-text-muted: #999999;
   
-  --color-accent-cyan: #00d9ff;
-  --color-accent-cyan-dark: #00b8d9;
-  --color-accent-red: #e94560;
-  --color-accent-red-dark: #d63651;
+  --color-accent: #2563eb;
+  --color-accent-dark: #1d4ed8;
+  --color-accent-light: #dbeafe;
   
-  --color-border: #333;
-  --color-disabled: #555;
+  --color-border: #e5e5e5;
+  --color-border-focus: #2563eb;
   
-  --radius-sm: 4px;
-  --radius-md: 8px;
+  --color-success: #10b981;
+  --color-error: #ef4444;
   
-  --transition-fast: 0.3s;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
 }
 
 /* Reset */
@@ -30,31 +40,58 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
 #root {
   max-width: 100%;
   margin: 0;
   padding: 0;
-  text-align: left;
 }
 
 /* Typography */
 h1 {
-  color: var(--color-accent-cyan);
-  margin-bottom: 2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
 }
 
 h2 {
-  color: var(--color-accent-red);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
   margin-bottom: 1rem;
 }
 
 h3 {
-  color: var(--color-accent-cyan);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Inputs */
+input[type="file"] {
+  display: none;
 }

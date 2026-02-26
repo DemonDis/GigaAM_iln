@@ -1,16 +1,39 @@
 .app-container {
   display: flex;
   min-height: 100vh;
+  background-color: var(--color-bg-primary);
 }
 
 .main-panel {
   flex: 1;
-  padding: 2rem;
-  border-right: 1px solid var(--color-border);
+  padding: 2.5rem;
+  max-width: 65%;
+  background-color: var(--color-bg-secondary);
 }
 
 .side-panel {
-  width: 400px;
-  padding: 2rem;
+  width: 35%;
+  min-width: 380px;
+  padding: 2.5rem;
   background-color: var(--color-bg-secondary);
+  border-left: 1px solid var(--color-border);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .main-panel,
+  .side-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: auto;
+    border-left: none;
+  }
+  
+  .main-panel {
+    border-bottom: 1px solid var(--color-border);
+  }
 }

@@ -3,11 +3,14 @@ import './styles/index.css';
 import UploadSection from './components/UploadSection';
 import TranscriptionPanel from './components/TranscriptionPanel';
 import ProtocolPanel from './components/ProtocolPanel';
+import ThemeToggle from './components/ThemeToggle';
 import useTranscription from './hooks/useTranscription';
 import useProtocol from './hooks/useProtocol';
+import useTheme from './hooks/useTheme';
 
 function App() {
   const [agenda, setAgenda] = useState('');
+  const { theme, toggleTheme } = useTheme();
   
   const { 
     audioFile, 
@@ -29,6 +32,8 @@ function App() {
 
   return (
     <div className="app-container">
+      <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      
       <div className="main-panel">
         <h1>GigaAM Транскрибация</h1>
         
