@@ -1,0 +1,83 @@
+.agenda-section {
+  margin-bottom: 1.5rem;
+}
+
+.agenda-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--color-text-secondary);
+}
+
+.agenda-section textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  resize: vertical;
+  font-family: inherit;
+}
+
+.agenda-section textarea:focus {
+  outline: none;
+  border-color: var(--color-accent-cyan);
+}
+
+.btn-secondary {
+  padding: 1rem 2rem;
+  background-color: var(--color-accent-red);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-accent-red-dark);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:disabled {
+  background-color: var(--color-disabled);
+  cursor: not-allowed;
+}
+
+.protocol-section {
+  margin-top: 2rem;
+}
+
+.protocol-box {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-accent-red);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.protocol-box pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Courier New', monospace;
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+.btn-copy {
+  padding: 0.5rem 1rem;
+  background-color: #4a5568;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.btn-copy:hover {
+  background-color: #5a6578;
+}

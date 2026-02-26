@@ -1,0 +1,8 @@
+/* Variables */
+@import './variables.css';
+
+/* Components */
+@import './components/Layout.css';
+@import './components/UploadSection.css';
+@import './components/TranscriptionPanel.css';
+@import './components/ProtocolPanel.css';

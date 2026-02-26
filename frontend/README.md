@@ -1,4 +1,4 @@
-# Frontend для GigaAM Транскрибации
+# Frontend Транскрибации
 
 ## Установка и запуск
 
@@ -11,13 +11,6 @@ npm install
 2. Запустите React dev сервер:
 ```bash
 npm run dev
-```
-
-3. Запустите backend API (в отдельном терминале):
-```bash
-cd ../backend
-pip install fastapi uvicorn python-multipart
-python main.py
 ```
 
 ## Использование
