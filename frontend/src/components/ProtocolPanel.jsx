@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { exportProtocol } from '../services/api';
 
 export default function ProtocolPanel({ 
@@ -10,6 +11,7 @@ export default function ProtocolPanel({
   protocol 
 }) {
   const [isExporting, setIsExporting] = useState(false);
+  const [viewMode, setViewMode] = useState('markdown');
 
   const handleExport = async (format) => {
     if (!protocol) return;
@@ -63,9 +65,29 @@ export default function ProtocolPanel({
 
       {protocol && (
         <div className="protocol-section">
-          <h3>Протокол (Rick Sanchez Mode)</h3>
+          <div className="protocol-header">
+            <h3>Протокол (Rick Sanchez Mode)</h3>
+            <div className="view-toggle">
+              <button 
+                onClick={() => setViewMode('markdown')}
+                className={viewMode === 'markdown' ? 'active' : ''}
+              >
+                Markdown
+              </button>
+              <button 
+                onClick={() => setViewMode('raw')}
+                className={viewMode === 'raw' ? 'active' : ''}
+              >
+                Raw
+              </button>
+            </div>
+          </div>
           <div className="protocol-box">
-            <pre>{protocol}</pre>
+            {viewMode === 'markdown' ? (
+              <ReactMarkdown>{protocol}</ReactMarkdown>
+            ) : (
+              <pre>{protocol}</pre>
+            )}
           </div>
           <button 
             onClick={() => {
