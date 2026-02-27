@@ -8,6 +8,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.units import inch
+from datetime import datetime
 import os
 import requests
 
@@ -165,11 +166,15 @@ class ExportRequest(BaseModel):
     protocol: str
 
 
+def get_filename(prefix: str, ext: str) -> str:
+    return f"{prefix}_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.{ext}"
+
+
 @app.post("/export/md")
 async def export_md(request: ExportRequest):
     return {
         "content": request.protocol,
-        "filename": "protocol.md"
+        "filename": get_filename("Протокол", "md")
     }
 
 
@@ -188,7 +193,7 @@ async def export_docx(request: ExportRequest):
     
     return {
         "content": buffer.getvalue().decode('latin-1'),
-        "filename": "protocol.docx",
+        "filename": get_filename("Протокол", "docx"),
         "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     }
 
@@ -210,6 +215,6 @@ async def export_pdf(request: ExportRequest):
     
     return {
         "content": buffer.getvalue().decode('latin-1'),
-        "filename": "protocol.pdf",
+        "filename": get_filename("Протокол", "pdf"),
         "content_type": "application/pdf"
     }
