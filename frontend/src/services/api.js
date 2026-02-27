@@ -1,4 +1,4 @@
-import { BACKEND_URL, BASE_URL, API_KEY, LLM_NAME, RICK_PROMPT } from '../constants/config';
+import { BACKEND_URL } from '../constants/config';
 
 export const transcribeAudio = async (file) => {
   const formData = new FormData();
@@ -18,25 +18,14 @@ export const transcribeAudio = async (file) => {
 };
 
 export const generateProtocol = async (transcription, agenda) => {
-  const userMessage = transcription 
-    ? `Транскрипт встречи:\n${transcription}\n\nПовестка дня:\n${agenda || 'Не указана'}`
-    : 'Нет транскрипта для обработки.';
-
-  const messages = [
-    { role: 'system', content: RICK_PROMPT },
-    { role: 'user', content: userMessage }
-  ];
-
-  const response = await fetch(BASE_URL, {
+  const response = await fetch(`${BACKEND_URL}/generate-protocol`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      model: LLM_NAME,
-      messages: messages,
-      temperature: 0.7,
+      transcription,
+      agenda,
     }),
   });
 
@@ -45,5 +34,5 @@ export const generateProtocol = async (transcription, agenda) => {
   }
 
   const data = await response.json();
-  return data.choices?.[0]?.message?.content || 'Не удалось сгенерировать протокол';
+  return data.protocol || 'Не удалось сгенерировать протокол';
 };

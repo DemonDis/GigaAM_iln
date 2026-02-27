@@ -10,3 +10,5 @@ tqdm
 huggingface_hub==1.4.1
 pyannote.audio==4.0.3
 python-dotenv==1.2.1
+python-multipart
+requests
