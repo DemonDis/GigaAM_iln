@@ -1,14 +1,27 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 from .transcribe import transcription_service
 
 
 app = FastAPI(title="GigaAM API")
 
+frontend_host = os.getenv("FRONTEND_HOST", "localhost")
+frontend_port = os.getenv("VITE_PORT", "5173")
+
+allow_origins = [
+    f"http://localhost:{frontend_port}",
+    f"http://127.0.0.1:{frontend_port}",
+    f"http://{frontend_host}:{frontend_port}",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://192.168.91.162:5173"],
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
