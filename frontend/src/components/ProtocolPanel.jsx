@@ -36,7 +36,18 @@ export default function ProtocolPanel({
             <pre>{protocol}</pre>
           </div>
           <button 
-            onClick={() => navigator.clipboard.writeText(protocol)}
+            onClick={() => {
+              if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(protocol);
+              } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = protocol;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textArea);
+              }
+            }}
             className="btn-copy"
           >
             Копировать
