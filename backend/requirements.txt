@@ -12,3 +12,5 @@ pyannote.audio==4.0.3
 python-dotenv==1.2.1
 python-multipart
 requests
+python-docx
+reportlab

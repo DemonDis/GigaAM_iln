@@ -36,3 +36,20 @@ export const generateProtocol = async (transcription, agenda) => {
   const data = await response.json();
   return data.protocol || 'Не удалось сгенерировать протокол';
 };
+
+export const exportProtocol = async (protocol, format) => {
+  const response = await fetch(`${BACKEND_URL}/export/${format}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ protocol }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+  return data;
+};

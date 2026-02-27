@@ -2,6 +2,12 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
+from io import BytesIO
+from docx import Document
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.lib.units import inch
 import os
 import requests
 
@@ -153,3 +159,57 @@ async def generate_protocol(request: ProtocolRequest):
         raise HTTPException(status_code=500, detail=f"Request error: {str(e)}, response: {e.response.text if e.response else 'No response'}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Protocol generation error: {str(e)}")
+
+
+class ExportRequest(BaseModel):
+    protocol: str
+
+
+@app.post("/export/md")
+async def export_md(request: ExportRequest):
+    return {
+        "content": request.protocol,
+        "filename": "protocol.md"
+    }
+
+
+@app.post("/export/docx")
+async def export_docx(request: ExportRequest):
+    doc = Document()
+    doc.add_heading('Протокол встречи', 0)
+    
+    for para in request.protocol.split('\n\n'):
+        if para.strip():
+            doc.add_paragraph(para.strip())
+    
+    buffer = BytesIO()
+    doc.save(buffer)
+    buffer.seek(0)
+    
+    return {
+        "content": buffer.getvalue().decode('latin-1'),
+        "filename": "protocol.docx",
+        "content_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    }
+
+
+@app.post("/export/pdf")
+async def export_pdf(request: ExportRequest):
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=72, leftMargin=72, topMargin=72, bottomMargin=18)
+    styles = getSampleStyleSheet()
+    story = []
+    
+    for para in request.protocol.split('\n\n'):
+        if para.strip():
+            p = Paragraph(para.strip().replace('\n', '<br/>'), styles['BodyText'])
+            story.append(p)
+    
+    doc.build(story)
+    buffer.seek(0)
+    
+    return {
+        "content": buffer.getvalue().decode('latin-1'),
+        "filename": "protocol.pdf",
+        "content_type": "application/pdf"
+    }

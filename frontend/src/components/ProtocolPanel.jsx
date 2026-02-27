@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { exportProtocol } from '../services/api';
+
 export default function ProtocolPanel({ 
   agenda, 
   onAgendaChange, 
@@ -6,6 +9,35 @@ export default function ProtocolPanel({
   onGenerateProtocol, 
   protocol 
 }) {
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async (format) => {
+    if (!protocol) return;
+    setIsExporting(true);
+    try {
+      const data = await exportProtocol(protocol, format);
+      
+      const content = format === 'md' 
+        ? data.content 
+        : new Uint8Array(data.content.split('').map(c => c.charCodeAt(0)));
+      
+      const blob = format === 'md'
+        ? new Blob([content], { type: 'text/markdown' })
+        : new Blob([content], { type: data.content_type });
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = data.filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Export error:', error);
+      alert('Ошибка при экспорте');
+    } finally {
+      setIsExporting(false);
+    }
+  };
   return (
     <div className="side-panel">
       <h2>Генерация протокола</h2>
@@ -52,6 +84,29 @@ export default function ProtocolPanel({
           >
             Копировать
           </button>
+          <div className="export-buttons">
+            <button 
+              onClick={() => handleExport('md')} 
+              disabled={isExporting}
+              className="btn-export"
+            >
+              .MD
+            </button>
+            <button 
+              onClick={() => handleExport('docx')} 
+              disabled={isExporting}
+              className="btn-export"
+            >
+              .DOC
+            </button>
+            <button 
+              onClick={() => handleExport('pdf')} 
+              disabled={isExporting}
+              className="btn-export"
+            >
+              .PDF
+            </button>
+          </div>
         </div>
       )}
     </div>
