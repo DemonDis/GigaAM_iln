@@ -3,22 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
-import sys
 import requests
 
 load_dotenv()
 
-print(f"STARTUP: API_KEY={os.getenv('API_KEY')[:10]}..." if os.getenv('API_KEY') else "STARTUP: API_KEY=None", flush=True)
-print(f"STARTUP: BASE_URL={os.getenv('BASE_URL')}", flush=True)
-print(f"STARTUP: LLM_NAME={os.getenv('LLM_NAME')}", flush=True)
-print(f"STARTUP: COMPLETIONS_PATHNAME={os.getenv('COMPLETIONS_PATHNAME')}", flush=True)
-
 from .transcribe import transcription_service
-
-print("Loaded env vars:")
-print(f"API_KEY: {os.getenv('API_KEY')[:10]}..." if os.getenv('API_KEY') else "API_KEY: None")
-print(f"BASE_URL: {os.getenv('BASE_URL')}")
-print(f"LLM_NAME: {os.getenv('LLM_NAME')}")
 
 
 app = FastAPI(title="GigaAM API")
@@ -138,15 +127,12 @@ async def generate_protocol(request: ProtocolRequest):
     api_key = os.getenv("API_KEY")
     base_url = os.getenv("BASE_URL")
     llm_name = os.getenv("LLM_NAME")
-    completions_pathname = os.getenv("COMPLETIONS_PATHNAME", "/api/v1/chat/completions")
+    completions_pathname = os.getenv("COMPLETIONS_PATHNAME", "/v1/chat/completions")
 
     if not api_key or not base_url:
         raise HTTPException(status_code=500, detail="API configuration missing")
 
     try:
-        sys.stdout.flush()
-        print(f"DEBUG: base_url={base_url}, pathname={completions_pathname}, model={llm_name}", flush=True)
-        
         response = requests.post(
             f"{base_url}{completions_pathname}",
             headers={
@@ -160,13 +146,10 @@ async def generate_protocol(request: ProtocolRequest):
             },
             timeout=120,
         )
-        print(f"DEBUG: response status={response.status_code}, body={response.text[:200]}", flush=True)
         response.raise_for_status()
         data = response.json()
         return {"protocol": data.get("choices", [{}])[0].get("message", {}).get("content", "Не удалось сгенерировать протокол")}
     except requests.exceptions.RequestException as e:
-        print(f"DEBUG ERROR: {e}", flush=True)
         raise HTTPException(status_code=500, detail=f"Request error: {str(e)}, response: {e.response.text if e.response else 'No response'}")
     except Exception as e:
-        print(f"DEBUG ERROR2: {e}", flush=True)
         raise HTTPException(status_code=500, detail=f"Protocol generation error: {str(e)}")
