@@ -3,7 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from io import BytesIO
+import re
 from docx import Document
+from docx.shared import Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml.ns import qn
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph
@@ -170,6 +174,48 @@ def get_filename(prefix: str, ext: str) -> str:
     return f"{prefix}_{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.{ext}"
 
 
+def add_markdown_paragraph(doc, text: str):
+    text = text.strip()
+    if not text:
+        return
+    
+    heading_match = re.match(r'^(#{1,6})\s+(.+)$', text)
+    if heading_match:
+        level = len(heading_match.group(1))
+        heading_text = heading_match.group(2)
+        doc.add_heading(heading_text, level=min(level, 2))
+        return
+    
+    list_match = re.match(r'^([-*]|\d+\.)\s+(.+)$', text)
+    if list_match:
+        doc.add_paragraph(list_match.group(2), style='List Bullet' if list_match.group(1) in ['-', '*'] else 'List Number')
+        return
+    
+    p = doc.add_paragraph()
+    parts = re.split(r'(\*\*[^*]+\*\*|\*[^*]+\*|__[^_]+__|_[^_]+_|~~[^~]+~~)', text)
+    
+    for part in parts:
+        if not part:
+            continue
+        if part.startswith('**') and part.endswith('**'):
+            run = p.add_run(part[2:-2])
+            run.bold = True
+        elif part.startswith('*') and part.endswith('*'):
+            run = p.add_run(part[1:-1])
+            run.italic = True
+        elif part.startswith('__') and part.endswith('__'):
+            run = p.add_run(part[2:-2])
+            run.bold = True
+        elif part.startswith('_') and part.endswith('_'):
+            run = p.add_run(part[1:-1])
+            run.italic = True
+        elif part.startswith('~~') and part.endswith('~~'):
+            run = p.add_run(part[2:-2])
+            run.font.strike = True
+        else:
+            p.add_run(part)
+
+
 @app.post("/export/md")
 async def export_md(request: ExportRequest):
     return {
@@ -184,8 +230,7 @@ async def export_docx(request: ExportRequest):
     doc.add_heading('Протокол встречи', 0)
     
     for para in request.protocol.split('\n\n'):
-        if para.strip():
-            doc.add_paragraph(para.strip())
+        add_markdown_paragraph(doc, para)
     
     buffer = BytesIO()
     doc.save(buffer)
