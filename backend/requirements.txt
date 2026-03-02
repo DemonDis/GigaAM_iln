@@ -14,3 +14,5 @@ python-multipart
 requests
 python-docx
 reportlab
+fastapi
+uvicorn[standard]

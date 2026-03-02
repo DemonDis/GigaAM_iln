@@ -26,11 +26,7 @@ app = FastAPI(title="GigaAM API")
 frontend_host = os.getenv("FRONTEND_HOST", "localhost")
 frontend_port = os.getenv("VITE_PORT", "5173")
 
-allow_origins = [
-    f"http://localhost:{frontend_port}",
-    f"http://127.0.0.1:{frontend_port}",
-    f"http://{frontend_host}:{frontend_port}",
-]
+allow_origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
