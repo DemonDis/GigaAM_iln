@@ -1,19 +1,18 @@
 # GigaAM
 
 ## Tech stack
-- **Python**: 3.13.12
+- **Python**: 3.12.3
+- **Node**: 22.12.0
 - **ffmpeg**: version 7.1.1-essentials_build-www.gyan.dev
 
-- **LM studio**: 0.4.2
-- **Model**: [josiefied-qwen3-4b-instruct-2507-gabliterated-v2-i1](https://huggingface.co/mradermacher/Josiefied-Qwen3-4B-Instruct-2507-gabliterated-v2-i1-GGUF)
+
+- **Model**: []()
 
 1. Создайте виртуальное окружение (рекомендуется):
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 # Для Linux/macOS
-source venv/bin/activate
-# Для Windows
-./.venv/Scripts/activate 
+source .venv/bin/activate
 ```
 
 2. Установите зависимости:
