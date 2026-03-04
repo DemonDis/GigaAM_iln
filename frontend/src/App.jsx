@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import './styles/index.css';
 import UploadSection from './components/UploadSection';
 import TranscriptionPanel from './components/TranscriptionPanel';
@@ -35,6 +36,7 @@ function AppContent() {
 
   return (
     <div className="app-container">
+      <Toaster position="top-right" />
       <ThemeToggle theme={theme} onToggle={toggleTheme} />
       
       <div className="main-panel">

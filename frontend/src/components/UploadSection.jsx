@@ -1,4 +1,8 @@
+import { useNotification } from '../hooks/useNotification';
+
 export default function UploadSection({ audioFile, onFileChange, onTranscribe, isTranscribing }) {
+  useNotification();
+
   return (
     <div className="upload-section">
       <input

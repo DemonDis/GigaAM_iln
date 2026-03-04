@@ -1,4 +1,8 @@
+import { useNotification } from '../hooks/useNotification';
+
 export default function TranscriptionPanel({ transcription, isTranscribing }) {
+  const { success, error } = useNotification();
+  
   const copyText = async () => {
     const text = transcription || '';
     try {
@@ -12,10 +16,10 @@ export default function TranscriptionPanel({ transcription, isTranscribing }) {
         document.execCommand('copy');
         document.body.removeChild(ta);
       }
-      alert('Текст скопирован');
+      success('Текст скопирован');
     } catch (e) {
       console.error(e);
-      alert('Не удалось скопировать текст');
+      error('Не удалось скопировать текст');
     }
   };
   return (

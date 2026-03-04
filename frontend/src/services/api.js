@@ -10,7 +10,8 @@ export const transcribeAudio = async (file) => {
   });
 
   if (!response.ok) {
-    throw new Error('Ошибка при транскрибации');
+    const text = await response.text();
+    throw new Error(`Ошибка при транскрибации: ${response.status} ${text}`);
   }
 
   const data = await response.json();
@@ -30,12 +31,18 @@ export const generateProtocol = async (transcription, agenda, modelId) => {
     }),
   });
 
+  const text = await response.text();
+
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    throw new Error(`Ошибка генерации протокола: ${response.status} ${text}`);
   }
 
-  const data = await response.json();
-  return data.protocol || 'Не удалось сгенерировать протокол';
+  try {
+    const data = JSON.parse(text);
+    return data.protocol || 'Не удалось сгенерировать протокол';
+  } catch {
+    throw new Error(`Неверный ответ сервера: ${text}`);
+  }
 };
 
 export const exportProtocol = async (protocol, format) => {
@@ -47,10 +54,15 @@ export const exportProtocol = async (protocol, format) => {
     body: JSON.stringify({ protocol }),
   });
 
+  const text = await response.text();
+
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
+    throw new Error(`Ошибка экспорта: ${response.status} ${text}`);
   }
 
-  const data = await response.json();
-  return data;
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(`Неверный ответ сервера: ${text}`);
+  }
 };

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { exportProtocol } from '../services/api';
 import { useModel } from '../context/ModelContext';
+import { useNotification } from '../hooks/useNotification';
 import ModelSelector from './ModelSelector';
 
 export default function ProtocolPanel({ 
@@ -15,10 +16,14 @@ export default function ProtocolPanel({
   const { selectedModel, setSelectedModel } = useModel();
   const [isExporting, setIsExporting] = useState(false);
   const [viewMode, setViewMode] = useState('markdown');
+  const { success, error, loading, dismiss } = useNotification();
 
   const handleExport = async (format) => {
     if (!protocol) return;
     setIsExporting(true);
+    
+    const loadingToast = loading(`Экспортирую в ${format.toUpperCase()}...`);
+    
     try {
       const data = await exportProtocol(protocol, format);
       
@@ -36,9 +41,13 @@ export default function ProtocolPanel({
       a.download = data.filename;
       a.click();
       URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Export error:', error);
-      alert('Ошибка при экспорте');
+      
+      dismiss(loadingToast);
+      success(`Файл ${data.filename} сохранён`);
+    } catch (err) {
+      dismiss(loadingToast);
+      console.error('Export error:', err);
+      error('Ошибка при экспорте');
     } finally {
       setIsExporting(false);
     }
@@ -107,6 +116,7 @@ export default function ProtocolPanel({
                   document.execCommand("copy");
                   document.body.removeChild(textArea);
                 }
+                success('Протокол скопирован');
               }}
               className="btn-icon"
               title="Копировать"

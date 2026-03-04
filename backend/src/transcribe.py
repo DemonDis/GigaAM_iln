@@ -12,7 +12,7 @@ class TranscriptionService:
     def model(self):
         if self._model is None:
             print(f"Loading model: {self.model_name}...")
-            self._model = gigaam.load_model(self.model_name, device="cpu")
+            self._model = gigaam.load_model(self.model_name, device="cpu", fp16_encoder=False)
             print("Model loaded successfully!")
         return self._model
 
