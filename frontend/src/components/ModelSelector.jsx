@@ -1,14 +1,19 @@
-import { QWEN_TEXT_MODEL_ID, DEFAULT_MODEL_ID } from '../constants/config';
+import { QWEN_TEXT_MODEL_ID, DEFAULT_MODEL_ID, QWEN_VL_MODEL_ID } from '../constants/config';
 
 const MODEL_OPTIONS = [
   {
     id: DEFAULT_MODEL_ID,
-    label: 'Api cloud',
-    description: 'Внешняя платная модель'
+    label: 'API cloud',
+    description: 'Внешняя, платная модель'
   },
   {
     id: QWEN_TEXT_MODEL_ID,
     label: 'Qwen3 32B AWQ',
+    description: 'Внутреняя модель'
+  },
+  {
+    id: QWEN_VL_MODEL_ID,
+    label: 'Qwen3 V1 2B instruct',
     description: 'Внутреняя модель'
   }
 ];

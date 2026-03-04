@@ -141,13 +141,15 @@ async def generate_protocol(request: ProtocolRequest):
         {"role": "user", "content": user_message}
     ]
 
-    # model_id = request.modelId or os.getenv("LLM_NAME")
-
     model_id = request.modelId
 
     if model_id == "qwen3-32b-awq":
         api_key = "No key"
         base_url = os.getenv("QWEN_TEXT_BASE_URL")
+        completions_pathname = os.getenv("COMPLETIONS_PATHNAME")
+    elif model_id == "qwen3-vl-2b-instruct":
+        api_key = "No key"
+        base_url = os.getenv("QWEN_VL_BASE_URL")
         completions_pathname = os.getenv("COMPLETIONS_PATHNAME")
     else:
         model_id = os.getenv("LLM_NAME")
