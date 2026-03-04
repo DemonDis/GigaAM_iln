@@ -172,7 +172,7 @@ async def generate_protocol(request: ProtocolRequest):
                 "messages": messages,
                 "temperature": 0.7,
             },
-            timeout=150,
+            timeout=250,
         )
         response.raise_for_status()
         data = response.json()

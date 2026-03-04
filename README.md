@@ -64,7 +64,6 @@ npm run dev
 ## Переменные окружения
 
 ## Структура проекта
-
 ```
 ├── backend/           # Python FastAPI сервер
 │   ├── src/
@@ -85,4 +84,25 @@ npm run dev
 │
 ├── docker-compose.yml
 └── .env.docker
+```
+
+## Пример запрос
+```bash
+curl -X POST http://<URL>/v1/chat/completions \
+-H "Content-Type: application/json" \
+-d '{
+  "model": "<MODEL_LLM>",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Ты — полезный ассистент."
+    },
+    {
+      "role": "user",
+      "content": "Привет! Расскажи короткий факт о космосе."
+    }
+  ],
+  "temperature": 0.7,
+  "max_tokens": 150
+}'
 ```
