@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { exportProtocol } from '../services/api';
+import { useModel } from '../context/ModelContext';
+import ModelSelector from './ModelSelector';
 
 export default function ProtocolPanel({ 
   agenda, 
@@ -8,8 +10,9 @@ export default function ProtocolPanel({
   transcription, 
   isGeneratingProtocol, 
   onGenerateProtocol, 
-  protocol 
+  protocol,
 }) {
+  const { selectedModel, setSelectedModel } = useModel();
   const [isExporting, setIsExporting] = useState(false);
   const [viewMode, setViewMode] = useState('markdown');
 
@@ -44,6 +47,8 @@ export default function ProtocolPanel({
     <div className="side-panel">
       <h2>Генерация протокола</h2>
       
+      <ModelSelector value={selectedModel} onChange={setSelectedModel} />
+
       <div className="agenda-section">
         <label htmlFor="agenda">Повестка дня (необязательно):</label>
         <textarea
@@ -56,7 +61,7 @@ export default function ProtocolPanel({
       </div>
 
       <button 
-        onClick={onGenerateProtocol} 
+        onClick={() => onGenerateProtocol(selectedModel)} 
         disabled={!transcription || isGeneratingProtocol}
         className="btn-secondary"
       >

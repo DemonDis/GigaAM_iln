@@ -5,7 +5,7 @@ export default function useProtocol() {
   const [protocol, setProtocol] = useState('');
   const [isGeneratingProtocol, setIsGeneratingProtocol] = useState(false);
 
-  const handleGenerateProtocol = async (transcription, agenda) => {
+  const handleGenerateProtocol = async (transcription, agenda, modelId) => {
     if (!transcription) {
       alert('Сначала нужно получить транскрипцию');
       return;
@@ -14,7 +14,7 @@ export default function useProtocol() {
     setIsGeneratingProtocol(true);
 
     try {
-      const result = await generateProtocol(transcription, agenda);
+      const result = await generateProtocol(transcription, agenda, modelId);
       setProtocol(result);
     } catch (error) {
       console.error('Error generating protocol:', error);

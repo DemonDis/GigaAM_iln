@@ -1,0 +1,47 @@
+.model-selector {
+  margin-bottom: 1.5rem;
+}
+
+.model-selector__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.model-selector__options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.model-option {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-tertiary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.model-option.selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.model-option input {
+  margin-top: 0.35rem;
+}
+
+.model-option__title {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.model-option__description {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}

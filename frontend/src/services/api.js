@@ -17,7 +17,7 @@ export const transcribeAudio = async (file) => {
   return data.transcription;
 };
 
-export const generateProtocol = async (transcription, agenda) => {
+export const generateProtocol = async (transcription, agenda, modelId) => {
   const response = await fetch(`${BACKEND_URL}/generate-protocol`, {
     method: 'POST',
     headers: {
@@ -26,6 +26,7 @@ export const generateProtocol = async (transcription, agenda) => {
     body: JSON.stringify({
       transcription,
       agenda,
+      modelId,
     }),
   });
 

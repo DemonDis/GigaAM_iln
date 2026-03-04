@@ -33,3 +33,9 @@ python main.py
 ```bash
 ffmpeg -i input.m4a output.wav
 ```
+
+## API
+
+- `POST /transcribe` — принимает `.wav` файл и возвращает текст транскрипции.
+- `POST /generate-protocol` — принимает текст транскрипции и повестку, генерирует протокол.
+- `POST /metrics/quantitative` — принимает `reference` и `hypothesis` и возвращает количественные метрики качества распознавания/перевода: WER, BLEU, ROUGE-1/2/L, а также длины токенов.

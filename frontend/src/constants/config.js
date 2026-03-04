@@ -1,1 +1,3 @@
 export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+export const DEFAULT_MODEL_ID = 'internet';
+export const QWEN_TEXT_MODEL_ID = 'qwen3-32b-awq';

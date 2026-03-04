@@ -22,7 +22,7 @@ __all__ = [
 ]
 
 # Default cache directory
-_CACHE_DIR = os.getenv("CACHE_DIR", "/media/sdd/Новый том/Linux/PROG/gigaam")
+_CACHE_DIR = os.path.expanduser(os.getenv("CACHE_DIR", "~/.cache/gigaam"))
 # Url with model checkpoints
 _URL_DIR = "https://cdn.chatwm.opensmodel.sberdevices.ru/GigaAM"
 _MODEL_HASHES = {

@@ -7,9 +7,12 @@ import ThemeToggle from './components/ThemeToggle';
 import useTranscription from './hooks/useTranscription';
 import useProtocol from './hooks/useProtocol';
 import useTheme from './hooks/useTheme';
+import { ModelProvider } from './context/ModelContext';
+import { useModel } from './context/ModelContext';
 
-function App() {
+function AppContent() {
   const [agenda, setAgenda] = useState('');
+  const { selectedModel, setSelectedModel } = useModel();
   const { theme, toggleTheme } = useTheme();
   
   const { 
@@ -27,7 +30,7 @@ function App() {
   } = useProtocol();
 
   const onGenerateProtocol = () => {
-    handleGenerateProtocol(transcription, agenda);
+    handleGenerateProtocol(transcription, agenda, selectedModel);
   };
 
   return (
@@ -57,9 +60,17 @@ function App() {
         isGeneratingProtocol={isGeneratingProtocol}
         onGenerateProtocol={onGenerateProtocol}
         protocol={protocol}
+        modelId={selectedModel}
+        onModelChange={setSelectedModel}
       />
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <ModelProvider>
+      <AppContent />
+    </ModelProvider>
+  );
+}
