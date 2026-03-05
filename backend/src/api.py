@@ -18,7 +18,7 @@ import requests
 load_dotenv()
 
 from .transcribe import transcription_service
-from .prompts.templates import RICK_PROMPT, RICK_PROMPT_V4
+from .prompts.templates import RICK_PROMPT, RICK_PROMPT_V4, TECH_PROMPT, TECH_PROMPT_2
 
 # Data models
 class ProtocolRequest(BaseModel):
@@ -185,7 +185,7 @@ def create_app(model=None, device=None):
     @app.post("/generate-protocol")
     async def generate_protocol(request: ProtocolRequest):
         user_message = f"Транскрипт встречи:\n{request.transcription}\n\nПовестка дня:\n{request.agenda or 'Не указана'}"
-        messages = [{"role": "system", "content": RICK_PROMPT_V4}, {"role": "user", "content": user_message}]
+        messages = [{"role": "system", "content": TECH_PROMPT_2}, {"role": "user", "content": user_message}]
         model_id = request.modelId
         if model_id == "qwen3-32b-awq":
             api_key = "No key"

@@ -4,8 +4,8 @@ omegaconf==2.3.*
 onnx==1.19.*
 onnxruntime==1.23.*
 sentencepiece
-torch==2.2.0+cpu
-torchaudio>=2.5,<2.9
+torch==2.8.0
+torchaudio>=2.8.0,<2.9
 tqdm
 huggingface_hub==1.4.1
 pyannote.audio==4.0.3
