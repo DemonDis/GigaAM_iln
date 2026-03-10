@@ -5,7 +5,6 @@
 - **Node**: 22.12.0
 - **ffmpeg**: version 7.1.1-essentials_build-www.gyan.dev
 
-
 - **Model**: []()
 
 1. Создайте виртуальное окружение (рекомендуется):

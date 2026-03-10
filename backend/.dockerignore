@@ -1,0 +1,40 @@
+# Python‑мусор
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+*.dist-info/
+.pytest_cache/
+
+# Тесты, документация, примеры
+tests/
+docs/
+voice/
+prompt/
+examples/
+*.md
+README.*
+
+# Большие файлы, которые скачиваются динамически
+*.ckpt
+*.onnx
+*.wav
+*.mp3
+*m4a
+*.mp4
+
+# Временные файлы и кэш
+*.tmp
+*.log
+.cache/
+venv/
+.venv/
+.env
+
+# Системные файлы
+.DS_Store
+.git
+.gitignore
+.dockerignore
+Dockerfile
