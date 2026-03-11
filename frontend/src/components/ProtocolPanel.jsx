@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { exportProtocol } from '../services/api';
+import { exportProtocol, getPrompts } from '../services/api';
 import { useModel } from '../context/ModelContext';
 import { useNotification } from '../hooks/useNotification';
 import ModelSelector from './ModelSelector';
@@ -12,11 +12,51 @@ export default function ProtocolPanel({
   isGeneratingProtocol, 
   onGenerateProtocol, 
   protocol,
+  selectedPrompt,
+  onPromptChange,
 }) {
   const { selectedModel, setSelectedModel } = useModel();
   const [isExporting, setIsExporting] = useState(false);
   const [viewMode, setViewMode] = useState('markdown');
-  const { success, error, loading, dismiss } = useNotification();
+  const [prompts, setPrompts] = useState([]);
+  const [customPromptMode, setCustomPromptMode] = useState(false);
+  const [customPromptBody, setCustomPromptBody] = useState('');
+  const [viewPrompt, setViewPrompt] = useState(null);
+  const { success, error, loading, dismiss } = useNotification()
+
+  useEffect(() => {
+    getPrompts()
+      .then(setPrompts)
+      .catch(err => console.error('Error loading prompts:', err));
+  }, []);
+
+  const handlePromptSelect = (e) => {
+    const value = e.target.value;
+    if (value === 'custom') {
+      setCustomPromptMode(true);
+      setViewPrompt(null);
+    } else if (value === '') {
+      setCustomPromptMode(false);
+      setCustomPromptBody('');
+      setViewPrompt(null);
+      onPromptChange('');
+    } else {
+      setCustomPromptMode(false);
+      setCustomPromptBody('');
+      const prompt = prompts.find(p => p.name === value);
+      onPromptChange(prompt ? prompt.body : '');
+      setViewPrompt(null);
+    }
+  };
+
+  const handleViewPrompt = (e) => {
+    e.stopPropagation();
+    const promptName = e.target.dataset.prompt;
+    const prompt = prompts.find(p => p.name === promptName);
+    if (prompt) {
+      setViewPrompt(prompt.body);
+    }
+  };
 
   const handleExport = async (format) => {
     if (!protocol) return;
@@ -57,6 +97,59 @@ export default function ProtocolPanel({
       <h2>Генерация протокола</h2>
       
       <ModelSelector value={selectedModel} onChange={setSelectedModel} />
+
+      <div className="prompt-section">
+        <label htmlFor="prompt-select">Выберите промпт:</label>
+        <div className="prompt-select-row">
+          <select 
+            id="prompt-select" 
+            value={customPromptMode ? 'custom' : (selectedPrompt && prompts.find(p => p.body === selectedPrompt) ? prompts.find(p => p.body === selectedPrompt).name : '')} 
+            onChange={handlePromptSelect}
+          >
+            <option value="">Выберите промпт</option>
+            {prompts.map((p, idx) => (
+              <option key={idx} value={p.name}>{p.name}</option>
+            ))}
+            <option value="custom">Свой промпт</option>
+          </select>
+          {prompts.length > 0 && (
+            <button 
+              className="btn-view"
+              onClick={handleViewPrompt}
+              data-prompt={selectedPrompt && prompts.find(p => p.body === selectedPrompt) ? prompts.find(p => p.body === selectedPrompt).name : prompts[0]?.name}
+              title="Посмотреть промпт"
+            >
+              👁
+            </button>
+          )}
+        </div>
+        
+        {viewPrompt && (
+          <div className="prompt-view">
+            <div className="prompt-view-header">
+              <span>Промпт:</span>
+              <button onClick={() => setViewPrompt(null)} className="btn-close">×</button>
+            </div>
+            <pre>{viewPrompt}</pre>
+          </div>
+        )}
+        
+        {customPromptMode && (
+          <div className="custom-prompt-section">
+            <label htmlFor="custom-prompt">Ваш промпт:</label>
+            <textarea
+              id="custom-prompt"
+              value={customPromptBody}
+              onChange={(e) => {
+                setCustomPromptBody(e.target.value);
+                onPromptChange(e.target.value);
+              }}
+              placeholder="Введите ваш промпт..."
+              rows={6}
+            />
+          </div>
+        )}
+      </div>
 
       <div className="agenda-section">
         <label htmlFor="agenda">Повестка дня (необязательно):</label>

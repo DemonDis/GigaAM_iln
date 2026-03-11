@@ -20,11 +20,19 @@ load_dotenv()
 from .transcribe import transcription_service
 from .prompts.templates import RICK_PROMPT, RICK_PROMPT_V4, TECH_PROMPT, TECH_PROMPT_2
 
+PROMPTS = [
+    {"name": "Рик классик", "body": RICK_PROMPT},
+    {"name": "Суровый Рик", "body": RICK_PROMPT_V4},
+    {"name": "Технический (краткий)", "body": TECH_PROMPT},
+    {"name": "Технический (объемный)", "body": TECH_PROMPT_2},
+]
+
 # Data models
 class ProtocolRequest(BaseModel):
     transcription: str
     agenda: str
     modelId: Optional[str] = None
+    prompt: Optional[str] = None
 
 class MetricsRequest(BaseModel):
     reference: str
@@ -182,10 +190,15 @@ def create_app(model=None, device=None):
     async def health():
         return {"status": "ok"}
 
+    @app.get("/prompts")
+    async def get_prompts():
+        return {"prompts": [{"name": p["name"], "body": p["body"]} for p in PROMPTS]}
+
     @app.post("/generate-protocol")
     async def generate_protocol(request: ProtocolRequest):
         user_message = f"Транскрипт встречи:\n{request.transcription}\n\nПовестка дня:\n{request.agenda or 'Не указана'}"
-        messages = [{"role": "system", "content": TECH_PROMPT_2}, {"role": "user", "content": user_message}]
+        system_prompt = request.prompt if request.prompt else TECH_PROMPT_2
+        messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_message}]
         model_id = request.modelId
         if model_id == "qwen3-32b-awq":
             api_key = "No key"

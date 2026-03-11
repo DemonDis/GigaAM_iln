@@ -11,11 +11,11 @@ const MODEL_OPTIONS = [
     label: 'Qwen3 32B AWQ',
     description: 'Внутреняя модель'
   },
-  {
-    id: QWEN_VL_MODEL_ID,
-    label: 'Qwen3 V1 2B instruct',
-    description: 'Внутреняя модель'
-  }
+  // {
+  //   id: QWEN_VL_MODEL_ID,
+  //   label: 'Qwen3 V1 2B instruct',
+  //   description: 'Внутреняя модель'
+  // }
 ];
 
 export default function ModelSelector({ value, onChange }) {

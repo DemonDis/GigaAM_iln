@@ -7,7 +7,7 @@ export default function useProtocol() {
   const [isGeneratingProtocol, setIsGeneratingProtocol] = useState(false);
   const { success, error, loading, dismiss } = useNotification();
 
-  const handleGenerateProtocol = async (transcription, agenda, modelId) => {
+  const handleGenerateProtocol = async (transcription, agenda, modelId, prompt = null) => {
     if (!transcription) {
       error('Сначала нужно получить транскрипцию');
       return;
@@ -18,7 +18,7 @@ export default function useProtocol() {
     const loadingToast = loading('Генерирую протокол...');
 
     try {
-      const result = await generateProtocol(transcription, agenda, modelId);
+      const result = await generateProtocol(transcription, agenda, modelId, prompt);
       dismiss(loadingToast);
       setProtocol(result);
       success('Протокол успешно сгенерирован');

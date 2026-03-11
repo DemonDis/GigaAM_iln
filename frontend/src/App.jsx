@@ -13,6 +13,7 @@ import { useModel } from './context/ModelContext';
 
 function AppContent() {
   const [agenda, setAgenda] = useState('');
+  const [selectedPrompt, setSelectedPrompt] = useState('');
   const { selectedModel, setSelectedModel } = useModel();
   const { theme, toggleTheme } = useTheme();
   
@@ -32,7 +33,7 @@ function AppContent() {
   } = useProtocol();
 
   const onGenerateProtocol = () => {
-    handleGenerateProtocol(transcription, agenda, selectedModel);
+    handleGenerateProtocol(transcription, agenda, selectedModel, selectedPrompt);
   };
 
   return (
@@ -66,6 +67,8 @@ function AppContent() {
         protocol={protocol}
         modelId={selectedModel}
         onModelChange={setSelectedModel}
+        selectedPrompt={selectedPrompt}
+        onPromptChange={setSelectedPrompt}
       />
     </div>
   );

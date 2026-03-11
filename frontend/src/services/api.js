@@ -18,7 +18,7 @@ export const transcribeAudio = async (file) => {
   return data.transcription;
 };
 
-export const generateProtocol = async (transcription, agenda, modelId) => {
+export const generateProtocol = async (transcription, agenda, modelId, prompt = null) => {
   const response = await fetch(`${BACKEND_URL}/generate-protocol`, {
     method: 'POST',
     headers: {
@@ -28,6 +28,7 @@ export const generateProtocol = async (transcription, agenda, modelId) => {
       transcription,
       agenda,
       modelId,
+      prompt,
     }),
   });
 
@@ -65,4 +66,16 @@ export const exportProtocol = async (protocol, format) => {
   } catch {
     throw new Error(`Неверный ответ сервера: ${text}`);
   }
+};
+
+export const getPrompts = async () => {
+  const response = await fetch(`${BACKEND_URL}/prompts`);
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Ошибка при получении промптов: ${response.status} ${text}`);
+  }
+
+  const data = await response.json();
+  return data.prompts;
 };

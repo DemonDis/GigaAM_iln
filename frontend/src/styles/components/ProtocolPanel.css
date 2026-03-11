@@ -2,6 +2,180 @@
   margin-bottom: 1.5rem;
 }
 
+.prompt-section {
+  margin-bottom: 1.5rem;
+}
+
+.prompt-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.prompt-section select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.prompt-section select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-secondary);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.prompt-select-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.prompt-select-row select {
+  flex: 1;
+}
+
+.btn-view {
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-view:hover {
+  background-color: var(--color-accent);
+  color: var(--color-bg-secondary);
+  border-color: var(--color-accent);
+}
+
+.prompt-view {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.prompt-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.prompt-view-header span {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 0.25rem;
+  line-height: 1;
+}
+
+.btn-close:hover {
+  color: var(--color-text-primary);
+}
+
+.prompt-view {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.prompt-view pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.custom-prompt-section {
+  margin-top: 1rem;
+}
+
+.custom-prompt-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.custom-prompt-section textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  background-color: var(--color-bg-tertiary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  transition: all var(--transition-fast);
+}
+
+.custom-prompt-section textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  background-color: var(--color-bg-secondary);
+  box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.custom-prompt-section textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-text-primary);
+  color: var(--color-bg-secondary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-small:hover:not(:disabled) {
+  background-color: #000;
+}
+
+.btn-small:disabled {
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
 .agenda-section label {
   display: block;
   margin-bottom: 0.5rem;
