@@ -1,10 +1,15 @@
 import { useNotification } from '../hooks/useNotification';
 
-export default function TranscriptionPanel({ transcription, isTranscribing }) {
+import { useState, useEffect } from 'react';
+export default function TranscriptionPanel({ transcription, isTranscribing, onTranscriptionChange }) {
   const { success, error } = useNotification();
+  const [customText, setCustomText] = useState(transcription || '');
+  useEffect(() => {
+    setCustomText(transcription || '');
+  }, [transcription]);
   
   const copyText = async () => {
-    const text = transcription || '';
+    const text = customText || '';
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(text);
@@ -25,16 +30,17 @@ export default function TranscriptionPanel({ transcription, isTranscribing }) {
   return (
     <div className="transcription-section">
       <h2>Транскрипция</h2>
-      <div className="transcription-box" style={{ position: 'relative' }}>
+      <div className="transcription-box">
         {isTranscribing ? (
-          <div className="loading">Идёт транскрибация аудио...</div>
-        ) : transcription ? (
-          <pre style={{ whiteSpace: 'pre-wrap' }}>{transcription}</pre>
-        ) : (
-          <div className="placeholder">
-            Загрузите .WAV файл и нажмите "Транскрибировать"
-          </div>
-        )}
+            <div className="loading">Идёт транскрибация аудио...</div>
+          ) : (
+            <textarea
+              className="textarea-box"
+              placeholder="Ввод текста для протокола"
+              value={customText}
+              onChange={(e) => { setCustomText(e.target.value); if (onTranscriptionChange) onTranscriptionChange(e.target.value); }}
+            />
+          )}
       </div>
       <div style={{ textAlign: 'right', marginTop: 8 }}>
         <button onClick={copyText} className="btn-copy">Копировать</button>

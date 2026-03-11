@@ -69,11 +69,11 @@ export default function ProtocolPanel({
         />
       </div>
 
-      <button 
-        onClick={() => onGenerateProtocol(selectedModel)} 
-        disabled={!transcription || isGeneratingProtocol}
-        className="btn-secondary"
-      >
+        <button 
+          onClick={() => onGenerateProtocol(selectedModel)} 
+          disabled={(!transcription || transcription.trim() === '') || isGeneratingProtocol}
+          className="btn-secondary"
+        >
         {isGeneratingProtocol ? 'Генерирую протокол (Рик работает)...' : 'Сгенерировать протокол'}
       </button>
 

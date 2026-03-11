@@ -58,5 +58,6 @@ export default function useTranscription() {
     isTranscribing,
     handleFileChange,
     handleTranscribe,
+    setTranscription,
   };
 }

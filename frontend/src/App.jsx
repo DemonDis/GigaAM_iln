@@ -21,7 +21,8 @@ function AppContent() {
     transcription, 
     isTranscribing, 
     handleFileChange, 
-    handleTranscribe 
+    handleTranscribe,
+    setTranscription
   } = useTranscription();
   
   const { 
@@ -52,6 +53,7 @@ function AppContent() {
         <TranscriptionPanel 
           transcription={transcription}
           isTranscribing={isTranscribing}
+          onTranscriptionChange={setTranscription}
         />
       </div>
 
