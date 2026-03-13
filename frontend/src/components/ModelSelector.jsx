@@ -1,4 +1,4 @@
-import { QWEN_TEXT_MODEL_ID, DEFAULT_MODEL_ID, QWEN_VL_MODEL_ID } from '../constants/config';
+import { QWEN_TEXT_MODEL_ID, DEFAULT_MODEL_ID, QWEN_VL_MODEL_ID, QWEN_VL_235_MODEL_ID } from '../constants/config';
 
 const MODEL_OPTIONS = [
   {
@@ -9,6 +9,11 @@ const MODEL_OPTIONS = [
   {
     id: QWEN_TEXT_MODEL_ID,
     label: 'Qwen3 32B AWQ',
+    description: 'Внутреняя модель'
+  },
+  {
+    id: QWEN_VL_235_MODEL_ID,
+    label: 'Qwen3 VL-235B A22B Instruct FP8',
     description: 'Внутреняя модель'
   },
   // {

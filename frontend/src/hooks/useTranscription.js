@@ -11,8 +11,10 @@ export default function useTranscription() {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (!file.name.toLowerCase().endsWith('.wav')) {
-        error('Пожалуйста, выберите файл .WAV');
+      const ext = file.name.toLowerCase().split('.').pop();
+      const supportedFormats = ['wav', 'mp3', 'flac', 'ogg', 'm4a', 'aac', 'wma', 'aiff', 'mp4', 'avi', 'mov', 'mkv'];
+      if (!supportedFormats.includes(ext)) {
+        error('Неподдерживаемый формат файла');
         return;
       }
       setAudioFile(file);
@@ -23,7 +25,7 @@ export default function useTranscription() {
 
   const handleTranscribe = async () => {
     if (!audioFile) {
-      error('Пожалуйста, выберите файл .WAV');
+      error('Пожалуйста, выберите файл');
       return;
     }
 

@@ -173,7 +173,7 @@ export default function ProtocolPanel({
       {protocol && (
         <div className="protocol-section">
           <div className="protocol-header">
-            <h3>Протокол (Rick Sanchez Mode)</h3>
+            <h3>Протокол</h3>
             <div className="view-toggle">
               <button 
                 onClick={() => setViewMode('markdown')}
@@ -244,7 +244,7 @@ export default function ProtocolPanel({
                 <line x1="10" y1="9" x2="8" y2="9"></line>
               </svg>
             </button>
-            <button 
+            {/* <button 
               onClick={() => handleExport('pdf')} 
               disabled={isExporting}
               className="btn-icon"
@@ -255,7 +255,7 @@ export default function ProtocolPanel({
                 <polyline points="14 2 14 8 20 8"></polyline>
                 <path d="M9 15v-2h2c.6 0 1 .4 1 1v0c0 .6-.4 1-1 1H9z"></path>
               </svg>
-            </button>
+            </button> */}
           </div>
         </div>
       )}

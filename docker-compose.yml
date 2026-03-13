@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - CACHE_DIR=/root/.cache/gigaam
+      - BASE_URL=${BASE_URL}
+      - API_KEY=${API_KEY}
+      - LLM_NAME=${LLM_NAME}
+      - QWEN_TEXT_BASE_URL=${QWEN_TEXT_BASE_URL}
+      - QWEN_VL_BASE_URL=${QWEN_VL_BASE_URL}
+      - COMPLETIONS_PATHNAME=${COMPLETIONS_PATHNAME}
+      - API_KEY_CHAT=${API_KEY_CHAT}
+      - QWEN_VL_235_BASE_URL=${QWEN_VL_235_BASE_URL}
+    volumes:
+      - gigaam_cache:/root/.cache/gigaam
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_BACKEND_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  gigaam_cache:

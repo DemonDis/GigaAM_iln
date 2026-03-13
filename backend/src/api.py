@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 from collections import Counter
 from math import exp, log
 import re
+import warnings
 from docx import Document
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
@@ -14,10 +15,12 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph
 from datetime import datetime
 import os
 import requests
+import warnings
+warnings.filterwarnings("ignore", message="Unverified HTTPS request")
 
 load_dotenv()
 
-from .transcribe import transcription_service
+from .transcribe import transcription_service, SUPPORTED_FORMATS
 from .prompts.templates import RICK_PROMPT, RICK_PROMPT_V4, TECH_PROMPT, TECH_PROMPT_2
 
 PROMPTS = [
@@ -177,12 +180,15 @@ def create_app(model=None, device=None):
     @app.post("/transcribe")
     async def transcribe(file: UploadFile = File(...)):
         filename = (file.filename or "").lower()
-        if not filename.endswith('.wav'):
-            raise HTTPException(status_code=400, detail="Only .wav files are supported")
+        ext = os.path.splitext(filename)[1] if '.' in filename else ''
+        if ext and ext not in SUPPORTED_FORMATS:
+            raise HTTPException(status_code=400, detail=f"Unsupported format. Supported: {', '.join(SUPPORTED_FORMATS)}")
         try:
             content = await file.read()
-            transcription = transcription_service.transcribe_file(content)
+            transcription = transcription_service.transcribe_file(content, file.filename or "")
             return {"transcription": transcription}
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=str(e))
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Transcription error: {str(e)}")
 
@@ -208,6 +214,10 @@ def create_app(model=None, device=None):
             api_key = "No key"
             base_url = os.getenv("QWEN_VL_BASE_URL")
             completions_pathname = os.getenv("COMPLETIONS_PATHNAME")
+        elif model_id == "Qwen/Qwen3-VL-235B-A22B-Instruct-FP8":
+            api_key = os.getenv("API_KEY_CHAT")
+            base_url = os.getenv("QWEN_VL_235_BASE_URL")
+            completions_pathname = os.getenv("COMPLETIONS_PATHNAME_2")
         else:
             model_id = os.getenv("LLM_NAME")
             api_key = os.getenv("API_KEY")
@@ -221,6 +231,7 @@ def create_app(model=None, device=None):
                 headers={"Content-Type": "application/json", "Authorization": f"Bearer {api_key}"},
                 json={"model": model_id, "messages": messages, "temperature": 0.7},
                 timeout=250,
+                verify=False,
             )
             response.raise_for_status()
             data = response.json()

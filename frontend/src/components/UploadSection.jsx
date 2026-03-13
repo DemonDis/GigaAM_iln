@@ -7,13 +7,13 @@ export default function UploadSection({ audioFile, onFileChange, onTranscribe, i
     <div className="upload-section">
       <input
         type="file"
-        accept=".wav"
+        accept=".wav,.mp3,.flac,.ogg,.m4a,.aac,.wma,.aiff,.mp4,.avi,.mov,.mkv,audio/*,video/*"
         onChange={onFileChange}
         className="file-input"
         id="file-input"
       />
       <label htmlFor="file-input" className="file-label">
-        {audioFile ? audioFile.name : 'Выберите файл .WAV'}
+        {audioFile ? audioFile.name : 'Выберите аудиофайл'}
       </label>
       
       <button 
