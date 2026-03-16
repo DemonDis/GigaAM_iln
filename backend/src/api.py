@@ -206,18 +206,22 @@ def create_app(model=None, device=None):
         system_prompt = request.prompt if request.prompt else TECH_PROMPT_2
         messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": user_message}]
         model_id = request.modelId
-        if model_id == "qwen3-32b-awq":
-            api_key = "No key"
-            base_url = os.getenv("QWEN_TEXT_BASE_URL")
-            completions_pathname = os.getenv("COMPLETIONS_PATHNAME")
-        elif model_id == "qwen3-vl-2b-instruct":
-            api_key = "No key"
-            base_url = os.getenv("QWEN_VL_BASE_URL")
-            completions_pathname = os.getenv("COMPLETIONS_PATHNAME")
-        elif model_id == "Qwen/Qwen3-VL-235B-A22B-Instruct-FP8":
+        # if model_id == "qwen3-32b-awq":
+        #     api_key = "No key"
+        #     base_url = os.getenv("QWEN_TEXT_BASE_URL")
+        #     completions_pathname = os.getenv("COMPLETIONS_PATHNAME")
+        # elif model_id == "qwen3-vl-2b-instruct":
+        #     api_key = "No key"
+        #     base_url = os.getenv("QWEN_VL_BASE_URL")
+        #     completions_pathname = os.getenv("COMPLETIONS_PATHNAME")
+        if model_id == "qwen3-32b-awq" or "dbra-rag-qwen3-32b-awq" or "qwen3-30b-awq-4bit" or "qwen3-vl-2b-instruct" or "Qwen/Qwen3-VL-235B-A22B-Instruct-FP8" or "gigachat3-10b" or "Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8":
             api_key = os.getenv("API_KEY_CHAT")
             base_url = os.getenv("QWEN_VL_235_BASE_URL")
             completions_pathname = os.getenv("COMPLETIONS_PATHNAME_2")
+        # elif model_id == "Qwen/Qwen3-VL-235B-A22B-Instruct-FP8":
+        #     api_key = os.getenv("API_KEY_CHAT")
+        #     base_url = os.getenv("QWEN_VL_235_BASE_URL")
+        #     completions_pathname = os.getenv("COMPLETIONS_PATHNAME_2")
         else:
             model_id = os.getenv("LLM_NAME")
             api_key = os.getenv("API_KEY")
@@ -288,5 +292,26 @@ def create_app(model=None, device=None):
         doc.build(story)
         buffer.seek(0)
         return {"content": buffer.getvalue().decode('latin-1'), "filename": get_filename("Протокол", "pdf"), "content_type": "application/pdf"}
+
+    @app.get("/models")
+    async def get_models():
+        api_key = os.getenv("API_KEY_CHAT")
+        base_url = os.getenv("QWEN_VL_235_BASE_URL")
+        try:
+            response = requests.get(
+                f"{base_url}/openai/models",
+                headers={
+                    "accept": "application/json",
+                    "Authorization": f"Bearer {api_key}"
+                },
+                verify=False,
+                timeout=30,
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.exceptions.Timeout:
+            raise HTTPException(status_code=504, detail="Request timeout")
+        except requests.exceptions.RequestException as e:
+            raise HTTPException(status_code=500, detail=f"Request error: {str(e)}")
 
     return app

@@ -167,7 +167,7 @@ export default function ProtocolPanel({
           disabled={(!transcription || transcription.trim() === '') || isGeneratingProtocol}
           className="btn-secondary"
         >
-        {isGeneratingProtocol ? 'Генерирую протокол (Рик работает)...' : 'Сгенерировать протокол'}
+        {isGeneratingProtocol ? 'Генерирую протокол...' : 'Сгенерировать протокол'}
       </button>
 
       {protocol && (

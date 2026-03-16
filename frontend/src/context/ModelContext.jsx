@@ -1,13 +1,13 @@
 import React from 'react';
 import { createContext, useContext, useState } from 'react';
 
-import { QWEN_TEXT_MODEL_ID } from '../constants/config';
+import { QWEN_VL_235_MODEL_ID } from '../constants/config';
 
 
 const ModelContext = createContext({});
 
 export function ModelProvider({ children }) {
-  const [selectedModel, setSelectedModel] = useState(QWEN_TEXT_MODEL_ID);
+  const [selectedModel, setSelectedModel] = useState(QWEN_VL_235_MODEL_ID);
 
   return (
     <ModelContext.Provider value={{ selectedModel, setSelectedModel }}>
